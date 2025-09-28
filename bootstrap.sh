@@ -36,6 +36,26 @@ if ! command -v docker-compose >/dev/null 2>&1; then
   sudo chmod +x "$DOCKER_COMPOSE_BIN"
 fi
 
+echo "deploiement de l'outil yq..."
+# Vérifier si yq est installé
+if ! command -v yq >/dev/null 2>&1; then
+  echo "[!] yq n'est pas installé, installation en cours..."
+
+  ARCH=$(uname -m)
+  case $ARCH in
+    x86_64) ARCH="amd64" ;;
+    aarch64 | arm64) ARCH="arm64" ;;
+    *) echo "Architecture non supportée automatiquement : $ARCH"; exit 1 ;;
+  esac
+
+  wget -q "https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${ARCH}" -O /usr/local/bin/yq
+  chmod +x /usr/local/bin/yq
+
+  echo "[✓] yq installé avec succès : $(yq --version)"
+else
+  echo "[✓] yq déjà installé : $(yq --version)"
+fi
+
 # 4) Clone nginx-certbot repo if absent
 echo "[4/5] Clone du repo $APP_REPO dans $APP_BASE (si absent)..."
 
