@@ -114,7 +114,7 @@ info "Writing systemd unit to $SERVICE_PATH"
 # prepare environment lines
 ENV_LINES="Environment=PYTHONUNBUFFERED=1"
 ENV_LINES="$ENV_LINES
-Environment=APPS_BASE=$APP_DIR/apps
+Environment=APPS_BASE=/opt/vps-deployment/apps
 Environment=ORCH_B_STORAGE=$STORAGE_DIR
 Environment=VENV_DIR=$VENV_DIR
 Environment=PORT=$PORT
